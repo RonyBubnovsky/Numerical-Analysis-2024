@@ -1,6 +1,6 @@
 # Matrix Operations in Python
 
-This Python script demonstrates various operations on 3x3 matrices, including calculating determinants, multiplying matrices, checking identity matrices, and finding inverse matrices using elementary row operations.
+This Python script demonstrates various operations on 3x3 matrices, including calculating determinants, multiplying matrices, checking identity matrices, and finding inverse matrices using elementary matrices.
 
 ## Purpose
 
