@@ -31,6 +31,10 @@ def calculate_determinant(matrix):
 
 matrix_determinant = calculate_determinant(matrix)
 
+if not matrix_determinant:
+    print("The matrix is not invertible.")
+    exit()
+
 
 def multiply_matrix(matrix1, matrix2):
     """
@@ -91,35 +95,37 @@ def find_inverse_matrix(matrix):
     Returns:
     list of list of floats: The inverse of the input matrix if it exists.
     """
-    inverse_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]  # Initialize the inverse matrix as the identity matrix
+    inverse_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]  
     
-    for i in range(3):
-        elementary_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]  # Initialize an elementary matrix
-        if matrix[i][i] < 0:  # If the diagonal element is negative
-            elementary_matrix[i][i] *= -1  # Negate the diagonal element of the elementary matrix
-            inverse_matrix = multiply_matrix(elementary_matrix, inverse_matrix)  # Apply the transformation to the inverse matrix
-            matrix = multiply_matrix(elementary_matrix, matrix)  # Apply the transformation to the input matrix
     
-    while not is_identity_matrix(matrix):  # Continue until the input matrix becomes the identity matrix
-        for j in range(3):
-            for i in range(3):
-                elementary_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]  # Initialize an elementary matrix
-                if i != j and matrix[i][j] != 0:  # If the element is not on the diagonal and is non-zero
-                    elementary_matrix[i][j] = -matrix[i][j] / matrix[j][j]  # Create the appropriate elementary row operation
-                    inverse_matrix = multiply_matrix(elementary_matrix, inverse_matrix)  # Apply the transformation to the inverse matrix
-                    matrix = multiply_matrix(elementary_matrix, matrix)  # Apply the transformation to the input matrix
+    for j in range(3):
+        for i in range(3):
+            elementary_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]  
+            if i != j and matrix[i][j] != 0: 
+                elementary_matrix[i][j] = -matrix[i][j] / matrix[j][j]  
+                inverse_matrix = multiply_matrix(elementary_matrix, inverse_matrix) 
+                matrix = multiply_matrix(elementary_matrix, matrix)  
+                
                     
-    print("Inverse matrix:", inverse_matrix)  # Print the resulting inverse matrix
-    
-    return inverse_matrix  # Return the inverse matrix
-
+                    
+    for i in range(3):
+        elementary_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]] 
+        if matrix[i][i] != 1:  
+            elementary_matrix[i][i] = 1 / matrix[i][i]    
+            inverse_matrix = multiply_matrix(elementary_matrix, inverse_matrix)  
+            matrix = multiply_matrix(elementary_matrix, matrix)
+            
+     
+                    
+     
+    return inverse_matrix  
                                     
     
 inverse_matrix = find_inverse_matrix(matrix)
 
-inverse_matrix_determinant = calculate_determinant(inverse_matrix)
+print(f'The inverse matrix is: {inverse_matrix}\n')
 
-print("The Cond is:", inverse_matrix_determinant * matrix_determinant)
+
 
             
             
