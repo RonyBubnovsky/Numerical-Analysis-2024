@@ -4,8 +4,7 @@ Bar Levi 314669664
 Aviel Esperansa 324062116
 """
 
-matrix = [[1, -1, -2], [2, -3, -5], [-1, 3, 5]] 
-
+matrix = [[1, -1, -2], [2, -3, -5], [-1, 3, 5]]
 
 def calculate_determinant(matrix):
     """
@@ -22,7 +21,7 @@ def calculate_determinant(matrix):
     d, e, f = matrix[1]
     g, h, i = matrix[2]
     
-    # Calculate the determinant
+    # Calculate the determinant using the formula for 3x3 matrices
     determinant = (a * (e * i - f * h) 
                    - b * (d * i - f * g) 
                    + c * (d * h - e * g))
@@ -31,10 +30,10 @@ def calculate_determinant(matrix):
 
 matrix_determinant = calculate_determinant(matrix)
 
+# Check if the matrix is invertible (i.e., determinant is not zero)
 if not matrix_determinant:
     print("The matrix is not invertible.")
     exit()
-
 
 def multiply_matrix(matrix1, matrix2):
     """
@@ -58,8 +57,6 @@ def multiply_matrix(matrix1, matrix2):
     
     return result  # Return the resulting matrix
 
-
-
 def is_identity_matrix(matrix):
     """
     Check if a 3x3 matrix is an identity matrix.
@@ -70,7 +67,7 @@ def is_identity_matrix(matrix):
     Returns:
     bool: True if the matrix is an identity matrix, False otherwise.
     """
-    
+    # Iterate through each element of the matrix
     for i in range(3):
         for j in range(3):
             if i == j:  # Check diagonal elements
@@ -83,8 +80,6 @@ def is_identity_matrix(matrix):
     return True  # Return True if all checks are passed
 
 
-       
-
 def find_inverse_matrix(matrix):
     """
     Find the inverse of a given 3x3 matrix using elementary row matrices.
@@ -95,65 +90,54 @@ def find_inverse_matrix(matrix):
     Returns:
     list of list of floats: The inverse of the input matrix if it exists.
     """
-    inverse_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]  
+    # Initialize the inverse matrix as an identity matrix
+    inverse_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
     
-    
+    # Make the matrix upper triangular
     for j in range(3):
         for i in range(3):
-            elementary_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]  
+            elementary_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
             if i != j and matrix[i][j] != 0: 
-                elementary_matrix[i][j] = -matrix[i][j] / matrix[j][j]  
-                inverse_matrix = multiply_matrix(elementary_matrix, inverse_matrix) 
-                matrix = multiply_matrix(elementary_matrix, matrix)  
-                
-                    
-                    
-    for i in range(3):
-        elementary_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]] 
-        if matrix[i][i] != 1:  
-            elementary_matrix[i][i] = 1 / matrix[i][i]    
-            inverse_matrix = multiply_matrix(elementary_matrix, inverse_matrix)  
-            matrix = multiply_matrix(elementary_matrix, matrix)
-            
-     
-                    
-     
-    return inverse_matrix  
-                                    
+                elementary_matrix[i][j] = -matrix[i][j] / matrix[j][j]
+                inverse_matrix = multiply_matrix(elementary_matrix, inverse_matrix)
+                matrix = multiply_matrix(elementary_matrix, matrix)
     
+    # Normalize the diagonal elements to 1
+    for i in range(3):
+        elementary_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+        if matrix[i][i] != 1:
+            elementary_matrix[i][i] = 1 / matrix[i][i]
+            inverse_matrix = multiply_matrix(elementary_matrix, inverse_matrix)
+            matrix = multiply_matrix(elementary_matrix, matrix)
+    
+    return inverse_matrix  # Return the inverse matrix
+
 inverse_matrix = find_inverse_matrix(matrix)
 
 print(f'The inverse matrix is: {inverse_matrix}\n')
 
+def find_matrix_norm(matrix):
+    """
+    Calculate the norm of a 3x3 matrix using the maximum absolute row sum.
+    
+    Parameters:
+    matrix (list of list of int/float): The 3x3 matrix for which to calculate the norm.
+    
+    Returns:
+    float: The norm of the matrix.
+    """
+    norm = 0
+    
+    # Calculate the row sums and find the maximum absolute row sum
+    for i in range(3):
+        row_sum = 0
+        for j in range(3):
+            row_sum += abs(matrix[i][j])
+        if row_sum > norm:
+            norm = row_sum
+    
+    return norm  # Return the norm of the matrix
 
-
-            
-            
-
-
-
-                    
-                
-                
-                               
-                
-                
-                
-                
-                 
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
+# Calculate and print the condition number of the matrix
+condition_number = find_matrix_norm(matrix) * find_matrix_norm(inverse_matrix)
+print("The condition number is: ", condition_number)
