@@ -28,13 +28,6 @@ def calculate_determinant(matrix):
     
     return determinant  # Return the determinant of the matrix
 
-matrix_determinant = calculate_determinant(matrix)
-
-# Check if the matrix is invertible (i.e., determinant is not zero)
-if not matrix_determinant:
-    print("The matrix is not invertible.")
-    exit()
-
 def multiply_matrix(matrix1, matrix2):
     """
     Multiply two 3x3 matrices.
@@ -112,9 +105,6 @@ def find_inverse_matrix(matrix):
     
     return inverse_matrix  # Return the inverse matrix
 
-inverse_matrix = find_inverse_matrix(matrix)
-
-print(f'The inverse matrix is: {inverse_matrix}\n')
 
 def find_matrix_norm(matrix):
     """
@@ -138,6 +128,18 @@ def find_matrix_norm(matrix):
     
     return norm  # Return the norm of the matrix
 
-# Calculate and print the condition number of the matrix
-condition_number = find_matrix_norm(matrix) * find_matrix_norm(inverse_matrix)
-print("The condition number is: ", condition_number)
+if __name__ == '__main__':
+    
+    matrix_determinant = calculate_determinant(matrix)
+
+    # Check if the matrix is invertible (i.e., determinant is not zero)
+    if not matrix_determinant:
+        print("The matrix is not invertible.")
+        exit()
+        
+    inverse_matrix = find_inverse_matrix(matrix)
+    print(f'The inverse matrix is: {inverse_matrix}\n')
+
+    # Calculate and print the condition number of the matrix
+    condition_number = find_matrix_norm(matrix) * find_matrix_norm(inverse_matrix)
+    print("The condition number is: ", condition_number)
